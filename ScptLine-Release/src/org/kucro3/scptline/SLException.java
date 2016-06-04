@@ -14,29 +14,28 @@ public abstract class SLException extends RuntimeException implements SLObject {
 	 */
 	private static final long serialVersionUID = 3816066002568652275L;
 	
-	protected SLException(SLEnvironment environment, SLExceptionLevel level)
+	protected SLException(SLEnvironment environment)
 	{
-		this(environment, level, DEFUALT_DESCRIPTION);
+		this(environment, DEFUALT_DESCRIPTION);
 	}
 	
-	protected SLException(SLEnvironment environment, SLExceptionLevel level,
+	protected SLException(SLEnvironment environment,
 			String description)
 	{
-		this(environment, level, description, null);
+		this(environment, description, null);
 	}
 	
-	protected SLException(SLEnvironment environment, SLExceptionLevel level,
+	protected SLException(SLEnvironment environment,
 			String description, String message)
 	{
-		this(environment, level, description, message, message);
+		this(environment, description, message, message);
 	}
 	
-	protected SLException(SLEnvironment envrionment, SLExceptionLevel level,
+	protected SLException(SLEnvironment envrionment,
 			String description, String messageStub, String message)
 	{
 		super(message);
 		this.owner = envrionment;
-		this.level = level;
 		this.description = description;
 		this.descriptionStub = description;
 		this.descriptionStubHash = description.hashCode();
@@ -53,11 +52,6 @@ public abstract class SLException extends RuntimeException implements SLObject {
 	public String getDescription()
 	{
 		return description;
-	}
-	
-	public final SLExceptionLevel getLevel()
-	{
-		return level;
 	}
 	
 	public final String getDescriptionStub()
@@ -90,18 +84,7 @@ public abstract class SLException extends RuntimeException implements SLObject {
 	
 	private final int messageStubHash;
 	
-	private final SLExceptionLevel level;
-	
 	private final SLEnvironment owner;
 	
 	public static final String DEFUALT_DESCRIPTION = "A ScptLine Environment runtime exception";
-
-	public static enum SLExceptionLevel
-	{
-		CONTINUE,
-		INTERRUPT,
-		STOP,
-		CRASH,
-		SIGN;
-	}
 }

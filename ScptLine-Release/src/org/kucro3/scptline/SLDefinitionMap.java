@@ -80,28 +80,28 @@ public class SLDefinitionMap implements SLObject {
 		 */
 		private static final long serialVersionUID = 5904755072313415819L;
 		
-		public SLDefinitionMapException(SLEnvironment env, SLExceptionLevel level,
+		public SLDefinitionMapException(SLEnvironment env,
 				String message)
 		{
-			super(env, level, DESCRIPTION, message, message);
+			super(env, DESCRIPTION, message, message);
 		}
 		
-		public SLDefinitionMapException(SLEnvironment env, SLExceptionLevel level,
+		public SLDefinitionMapException(SLEnvironment env,
 				String stub, String message)
 		{
-			super(env, level, DESCRIPTION, stub, message);
+			super(env, DESCRIPTION, stub, message);
 		}
 		
 		public static SLDefinitionMapException newVarNotDeclared(SLEnvironment env, String var)
 		{
-			return new SLDefinitionMapException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDefinitionMapException(env,
 					MESSAGE_VAR_NOT_DECLARED,
 					String.format(MESSAGE_VAR_NOT_DECLARED, var));
 		}
 		
 		public static SLDefinitionMapException newRedeclaration(SLEnvironment env, String var)
 		{
-			return new SLDefinitionMapException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDefinitionMapException(env,
 					MESSAGE_VAR_REDECLARATION,
 					String.format(MESSAGE_VAR_REDECLARATION, var));
 		}

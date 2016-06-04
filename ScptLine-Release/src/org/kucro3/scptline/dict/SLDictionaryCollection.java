@@ -123,22 +123,22 @@ public class SLDictionaryCollection implements SLObject {
 		 */
 		private static final long serialVersionUID = -6822170719734111730L;
 	
-		public SLDictionaryCollectionException(SLEnvironment env, SLExceptionLevel level,
+		public SLDictionaryCollectionException(SLEnvironment env,
 				String stub)
 		{
-			super(env, level, DESCRIPTION, stub);
+			super(env, DESCRIPTION, stub);
 		}
 		
-		public SLDictionaryCollectionException(SLEnvironment env, SLExceptionLevel level,
+		public SLDictionaryCollectionException(SLEnvironment env,
 				String stub, String message)
 		{
-			super(env, level, DESCRIPTION, stub, message);
+			super(env, DESCRIPTION, stub, message);
 		}
 		
 		public static SLDictionaryCollectionException newNoSuchDictionary(SLEnvironment env,
 				String dict)
 		{
-			return new SLDictionaryCollectionException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryCollectionException(env,
 					MESSAGE_NO_SUCH_DICTIONARY,
 					String.format(MESSAGE_NO_SUCH_DICTIONARY, dict));
 		}
@@ -146,7 +146,7 @@ public class SLDictionaryCollection implements SLObject {
 		public static SLDictionaryCollectionException newUnknownInsn(SLEnvironment env,
 				String name)
 		{
-			return new SLDictionaryCollectionException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryCollectionException(env,
 					MESSAGE_UNKNOWN_INSN,
 					String.format(MESSAGE_UNKNOWN_INSN, name));
 		}
@@ -154,7 +154,7 @@ public class SLDictionaryCollection implements SLObject {
 		public static SLDictionaryCollectionException newNoSuchField(SLEnvironment env,
 				String name)
 		{
-			return new SLDictionaryCollectionException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryCollectionException(env,
 					MESSAGE_NO_SUCH_FIELD,
 					String.format(MESSAGE_NO_SUCH_FIELD, name));
 		}
@@ -162,7 +162,7 @@ public class SLDictionaryCollection implements SLObject {
 		public static SLDictionaryCollectionException newNoSuchFieldInDict(SLEnvironment env,
 				String dict, String name)
 		{
-			return new SLDictionaryCollectionException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryCollectionException(env,
 					MESSAGE_NO_SUCH_FIELD_IN_DICT,
 					String.format(MESSAGE_NO_SUCH_FIELD_IN_DICT, name, dict));
 		}
@@ -170,7 +170,7 @@ public class SLDictionaryCollection implements SLObject {
 		public static SLDictionaryCollectionException newUnknownInsnInDict(SLEnvironment env,
 				String dict, String name)
 		{
-			return new SLDictionaryCollectionException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryCollectionException(env,
 					MESSAGE_UNKNOWN_INSN_IN_DICT,
 					String.format(MESSAGE_UNKNOWN_INSN_IN_DICT, name, dict));
 		}

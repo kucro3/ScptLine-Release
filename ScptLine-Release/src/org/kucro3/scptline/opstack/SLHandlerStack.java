@@ -76,12 +76,7 @@ public class SLHandlerStack implements SLObject {
 		requireHandler().intpoint(this.getEnv());
 	}
 	
-	public final String[] preprocess(String line)
-	{
-		return requireHandler().preprocess(this.getEnv(), line);
-	}
-	
-	public final boolean process(String[] line)
+	public final boolean process(String line)
 	{
 		return requireHandler().process(this.getEnv(), line);
 	}
@@ -109,28 +104,28 @@ public class SLHandlerStack implements SLObject {
 		 */
 		private static final long serialVersionUID = -2854181267941856346L;
 		
-		public SLHandlerStackException(SLEnvironment env, SLExceptionLevel level,
+		public SLHandlerStackException(SLEnvironment env,
 				String stub)
 		{
-			super(env, level, DESCRIPTION, stub);
+			super(env, DESCRIPTION, stub);
 		}
 		
-		public SLHandlerStackException(SLEnvironment env, SLExceptionLevel level, 
+		public SLHandlerStackException(SLEnvironment env,
 				String stub, String message)
 		{
-			super(env, level, DESCRIPTION, stub, message);
+			super(env, DESCRIPTION, stub, message);
 		}
 		
 		public static SLHandlerStackException newStackOverflow(SLEnvironment env)
 		{
-			return new SLHandlerStackException(env, SLExceptionLevel.STOP,
+			return new SLHandlerStackException(env,
 					MESSAGE_STACK_OVERFLOW,
 					MESSAGE_STACK_OVERFLOW);
 		}
 		
 		public static SLHandlerStackException newStackUnderflow(SLEnvironment env)
 		{
-			return new SLHandlerStackException(env, SLExceptionLevel.STOP,
+			return new SLHandlerStackException(env,
 					MESSAGE_STACK_UNDERFLOW,
 					MESSAGE_STACK_UNDERFLOW);
 		}

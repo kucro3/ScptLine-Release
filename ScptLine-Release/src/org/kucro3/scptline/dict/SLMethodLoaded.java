@@ -194,21 +194,21 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 		 */
 		private static final long serialVersionUID = -2832676163836170957L;
 		
-		public SLMethodException(SLEnvironment env, SLExceptionLevel level, String stub)
+		public SLMethodException(SLEnvironment env, String stub)
 		{
-			super(env, level, DESCRIPTION, stub);
+			super(env, DESCRIPTION, stub);
 		}
 		
-		public SLMethodException(SLEnvironment env, SLExceptionLevel level, String stub,
+		public SLMethodException(SLEnvironment env, String stub,
 				String message)
 		{
-			super(env, level, DESCRIPTION, stub, message);
+			super(env, DESCRIPTION, stub, message);
 		}
 		
 		public static SLMethodException newInvocationTarget(SLEnvironment env,
 				InvocationTargetException e)
 		{
-			return (SLMethodException)new SLMethodException(env, SLExceptionLevel.INTERRUPT,
+			return (SLMethodException)new SLMethodException(env,
 					MESSAGE_INVOCATION_TARGET,
 					String.format(MESSAGE_INVOCATION_TARGET, e.getMessage()))
 					.initCause(e.getCause());
@@ -217,7 +217,7 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 		public static SLMethodException newIllegalAccess(SLEnvironment env,
 				IllegalAccessException e)
 		{
-			return new SLMethodException(env, SLExceptionLevel.CRASH,
+			return new SLMethodException(env,
 					MESSAGE_ILLEGAL_ACCESS,
 					String.format(MESSAGE_ILLEGAL_ACCESS, e.getMessage()));
 		}
@@ -225,7 +225,7 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 		public static SLMethodException newIllegalArgument(SLEnvironment env,
 				IllegalArgumentException e)
 		{
-			return new SLMethodException(env, SLExceptionLevel.CRASH,
+			return new SLMethodException(env,
 					MESSAGE_ILLEGAL_ARGUMENT,
 					String.format(MESSAGE_ILLEGAL_ARGUMENT, e.getMessage()));
 		}
@@ -233,7 +233,7 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 		public static SLMethodException newUnknownParamType(SLEnvironment env,
 				String name)
 		{
-			return new SLMethodException(env, SLExceptionLevel.STOP,
+			return new SLMethodException(env,
 					MESSAGE_UNKNOWN_PARAM_TYPE,
 					String.format(MESSAGE_UNKNOWN_PARAM_TYPE, name));
 		}

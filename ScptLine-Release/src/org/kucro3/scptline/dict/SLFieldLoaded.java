@@ -245,21 +245,21 @@ public class SLFieldLoaded extends SLExported implements SLDictionaryObject {
 		 */
 		private static final long serialVersionUID = -4070302767213012485L;
 		
-		public SLFieldException(SLEnvironment env, SLExceptionLevel level, String stub)
+		public SLFieldException(SLEnvironment env, String stub)
 		{
-			super(env, level, DESCRIPTION, stub);
+			super(env, DESCRIPTION, stub);
 		}
 		
-		public SLFieldException(SLEnvironment env, SLExceptionLevel level, String stub,
+		public SLFieldException(SLEnvironment env, String stub,
 				String message)
 		{
-			super(env, level, DESCRIPTION, stub, message);
+			super(env, DESCRIPTION, stub, message);
 		}
 		
 		public static SLFieldException newIllegalAccess(SLEnvironment env,
 				IllegalAccessException e)
 		{
-			return new SLFieldException(env, SLExceptionLevel.CRASH,
+			return new SLFieldException(env,
 					MESSAGE_ILLEGAL_ACCESS,
 					String.format(MESSAGE_ILLEGAL_ACCESS, e.getMessage()));
 		}
@@ -267,21 +267,21 @@ public class SLFieldLoaded extends SLExported implements SLDictionaryObject {
 		public static SLFieldException newIllegalArgument(SLEnvironment env,
 				IllegalArgumentException e)
 		{
-			return new SLFieldException(env, SLExceptionLevel.CRASH,
+			return new SLFieldException(env,
 					MESSAGE_ILLEGAL_ARGUMENT,
 					String.format(MESSAGE_ILLEGAL_ARGUMENT, e.getMessage()));
 		}
 		
 		public static SLFieldException newGetNotSupported(SLEnvironment env)
 		{
-			return new SLFieldException(env, SLExceptionLevel.INTERRUPT,
+			return new SLFieldException(env,
 					MESSAGE_GET_NOT_SUPPORTED,
 					MESSAGE_GET_NOT_SUPPORTED);
 		}
 		
 		public static SLFieldException newSetNotSupported(SLEnvironment env)
 		{
-			return new SLFieldException(env, SLExceptionLevel.INTERRUPT,
+			return new SLFieldException(env,
 					MESSAGE_SET_NOT_SUPPORTED,
 					MESSAGE_SET_NOT_SUPPORTED);
 		}

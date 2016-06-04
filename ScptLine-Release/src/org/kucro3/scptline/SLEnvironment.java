@@ -3,8 +3,6 @@ package org.kucro3.scptline;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Map;
-import java.util.HashMap;
 
 import org.kucro3.decl.Decl;
 import org.kucro3.decl.DeclObject;
@@ -12,7 +10,6 @@ import org.kucro3.scptline.dict.SLDictionaryCollection;
 import org.kucro3.scptline.dict.SLDictionaryFactory;
 import org.kucro3.scptline.dict.SLDictionaryLoaded;
 import org.kucro3.scptline.dict.SLDictionaryLoader;
-import org.kucro3.scptline.opstack.SLHandler;
 import org.kucro3.scptline.opstack.SLHandlerStack;
 
 public class SLEnvironment implements SLExceptionHandler {
@@ -34,6 +31,8 @@ public class SLEnvironment implements SLExceptionHandler {
 		this.opstack = new SLHandlerStack(this);
 		this.collection = SLDictionaryFactory.newCollection(this);
 		this.intpointEnabled = property.intpointEnabled();
+		this.definitionStack = new SLDefinitionStack(this);
+		this.definitionStack.pushNew();
 	}
 	
 	public final SLProperty getProperties()
@@ -54,6 +53,11 @@ public class SLEnvironment implements SLExceptionHandler {
 	public final SLRegister getRegister()
 	{
 		return reg;
+	}
+	
+	public final SLDefinitionStack getVarMap()
+	{
+		return definitionStack;
 	}
 	
 	@Override
@@ -104,36 +108,18 @@ public class SLEnvironment implements SLExceptionHandler {
 	
 	public boolean execute(String line, int linenumber)
 	{
-			try {
-				String[] lines = opstack.preprocess(line);
-				if(lines == null)
-					return false;
-				boolean r = opstack.process(lines);
-				
-				if(this.intpointEnabled)
-					opstack.intpoint();
-				return r;
-			} catch (SLException e) {
-				this.uncaughtException(e);
-			}
-		return false;
-	}
-	
-	final void uncaughtException(Exception e)
-	{
-		// TODO handle all the uncaught exceptions
-		e.printStackTrace();
+		boolean r = opstack.process(line);
+		if(this.intpointEnabled)
+			opstack.intpoint();
+		return r;
 	}
 	
 	private final <T> SLDictionaryLoaded load0(LambdaLoading<T> lambda, T v)
 	{
-		try {
-			return lambda.function(this, v);
-		} catch (SLException e) {
-			this.uncaughtException(e);
-		}
-		return null;
+		return lambda.function(this, v);
 	}
+	
+	private final SLDefinitionStack definitionStack;
 	
 	private final SLDictionaryCollection collection;
 	

@@ -46,14 +46,7 @@ public abstract class SLHandler implements SLRuntimeObject, SLExceptionHandler {
 			parent.internalException(env, e);
 	}
 	
-	public String[] preprocess(SLEnvironment env, String line)
-	{
-		if(parent != null)
-			return parent.preprocess(env, line);
-		return null;
-	}
-	
-	public boolean process(SLEnvironment env, String[] line)
+	public boolean process(SLEnvironment env, String line)
 	{
 		if(parent != null)
 			return parent.process(env, line);

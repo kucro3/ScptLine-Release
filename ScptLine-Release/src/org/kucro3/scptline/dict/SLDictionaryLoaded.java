@@ -130,22 +130,22 @@ public class SLDictionaryLoaded implements SLObject {
 		 */
 		private static final long serialVersionUID = -1349243290471799514L;
 		
-		public SLDictionaryException(SLEnvironment env, SLExceptionLevel level,
+		public SLDictionaryException(SLEnvironment env,
 				String stub)
 		{
-			super(env, level, DESCRIPTION, stub);
+			super(env, DESCRIPTION, stub);
 		}
 		
-		public SLDictionaryException(SLEnvironment env, SLExceptionLevel level,
+		public SLDictionaryException(SLEnvironment env,
 				String stub, String message)
 		{
-			super(env, level, DESCRIPTION, stub, message);
+			super(env, DESCRIPTION, stub, message);
 		}
 		
 		public static SLDictionaryException newNoSuchField(SLEnvironment env,
 				String s)
 		{
-			return new SLDictionaryException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryException(env,
 					MESSAGE_FIELD_NOT_FOUND,
 					String.format(MESSAGE_FIELD_NOT_FOUND, s));
 		}
@@ -153,7 +153,7 @@ public class SLDictionaryLoaded implements SLObject {
 		public static SLDictionaryException newNoSuchMethod(SLEnvironment env,
 				String s)
 		{
-			return new SLDictionaryException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryException(env,
 					MESSAGE_METHOD_NOT_FOUND,
 					String.format(MESSAGE_METHOD_NOT_FOUND, s));
 		}

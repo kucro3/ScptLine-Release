@@ -525,22 +525,22 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 		 */
 		private static final long serialVersionUID = 7967350349061847416L;
 		
-		public SLDictionaryLoaderException(SLEnvironment env, SLExceptionLevel level,
+		public SLDictionaryLoaderException(SLEnvironment env,
 				String stub)
 		{
-			super(env, level, DESCRIPTION, stub);
+			super(env, DESCRIPTION, stub);
 		}
 		
-		public SLDictionaryLoaderException(SLEnvironment env, SLExceptionLevel level,
+		public SLDictionaryLoaderException(SLEnvironment env,
 				String stub, String message)
 		{
-			super(env, level, DESCRIPTION, stub, message);
+			super(env, DESCRIPTION, stub, message);
 		}
 		
 		public static SLDictionaryLoaderException newIOException(SLEnvironment env,
 				IOException e)
 		{
-			return new SLDictionaryLoaderException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryLoaderException(env,
 					MESSAGE_IO_EXCEPTION,
 					String.format(MESSAGE_IO_EXCEPTION, e.getMessage()));
 		}
@@ -548,14 +548,14 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 		public static SLDictionaryLoaderException newMalformedURL(SLEnvironment env,
 				MalformedURLException e)
 		{
-			return new SLDictionaryLoaderException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryLoaderException(env,
 					MESSAGE_MALFORMED_URL,
 					String.format(MESSAGE_MALFORMED_URL, e.getMessage()));
 		}
 		
 		public static SLDictionaryLoaderException newConfigNotFound(SLEnvironment env)
 		{
-			return new SLDictionaryLoaderException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryLoaderException(env,
 					MESSAGE_CONFIGURATION_NOT_FOUND,
 					MESSAGE_CONFIGURATION_NOT_FOUND);
 		}
@@ -563,7 +563,7 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 		public static SLDictionaryLoaderException newNoSuchConfigSection(SLEnvironment env,
 				String s)
 		{
-			return new SLDictionaryLoaderException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryLoaderException(env,
 					MESSAGE_NO_SUCH_CONFIGURATION_SECTION,
 					String.format(MESSAGE_NO_SUCH_CONFIGURATION_SECTION, s));
 		}
@@ -571,7 +571,7 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 		public static SLDictionaryLoaderException newClassNotFound(SLEnvironment env,
 				ClassNotFoundException e)
 		{
-			return new SLDictionaryLoaderException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryLoaderException(env,
 					MESSAGE_CLASS_NOT_FOUND,
 					String.format(MESSAGE_CLASS_NOT_FOUND, e.getMessage()));
 		}
@@ -579,7 +579,7 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 		public static SLDictionaryLoaderException newFieldNameDuplicated(SLEnvironment env,
 				String name)
 		{
-			return new SLDictionaryLoaderException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryLoaderException(env,
 					MESSAGE_FIELD_NAME_DUPLICATED,
 					String.format(MESSAGE_FIELD_NAME_DUPLICATED, name));
 		}
@@ -587,14 +587,14 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 		public static SLDictionaryLoaderException newMethodNameDuplicated(SLEnvironment env,
 				String name)
 		{
-			return new SLDictionaryLoaderException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryLoaderException(env,
 					MESSAGE_METHOD_NAME_DUPLICATED,
 					String.format(MESSAGE_METHOD_NAME_DUPLICATED, name));
 		}
 		
 		public static SLDictionaryLoaderException newMetadataNameUndefined(SLEnvironment env)
 		{
-			return new SLDictionaryLoaderException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryLoaderException(env,
 					MESSAGE_METADATA_NAME_UNDEFINED,
 					MESSAGE_METADATA_NAME_UNDEFINED);
 		}
@@ -602,7 +602,7 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 		public static SLDictionaryLoaderException newConstructionIllegalAccess(SLEnvironment env,
 				IllegalAccessException e)
 		{
-			return new SLDictionaryLoaderException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryLoaderException(env,
 					MESSAGE_CONSTRUCTION_ILLEGAL_ACCESS,
 					String.format(MESSAGE_CONSTRUCTION_ILLEGAL_ACCESS, e.getMessage()));
 		}
@@ -610,7 +610,7 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 		public static SLDictionaryLoaderException newConstructionInstantiation(SLEnvironment env,
 				InstantiationException e)
 		{
-			return new SLDictionaryLoaderException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryLoaderException(env,
 					MESSAGE_CONSTRUCTION_INSTANTIATION,
 					String.format(MESSAGE_CONSTRUCTION_INSTANTIATION, e.getMessage()));
 		}
@@ -618,7 +618,7 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 		public static SLDictionaryLoaderException newConstructionInternal(SLEnvironment env,
 				Throwable e)
 		{
-			return new SLDictionaryLoaderException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryLoaderException(env,
 					MESSAGE_CONSTRUCTION_INTERNAL,
 					String.format(MESSAGE_CONSTRUCTION_INTERNAL, 
 							e.getClass().getSimpleName(),
@@ -627,7 +627,7 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 		
 		public static SLDictionaryLoaderException newNullDictionaryName(SLEnvironment env)
 		{
-			return new SLDictionaryLoaderException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryLoaderException(env, 
 					MESSAGE_NULL_DICTIONARY_NAME,
 					MESSAGE_NULL_DICTIONARY_NAME);
 		}
@@ -635,7 +635,7 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 		public static SLDictionaryLoaderException newConstructionInstance(SLEnvironment env,
 				String src, String dest)
 		{
-			return new SLDictionaryLoaderException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryLoaderException(env,
 					MESSAGE_CONSTRUCTION_INSTANCE,
 					String.format(MESSAGE_CONSTRUCTION_INSTANCE, src, dest));
 		}
@@ -643,7 +643,7 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 		public static SLDictionaryLoaderException newDelegateNotSpecified(SLEnvironment env,
 				String name)
 		{
-			return new SLDictionaryLoaderException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryLoaderException(env,
 					MESSAGE_DELEGATE_NOT_SPECIFIED,
 					String.format(MESSAGE_DELEGATE_NOT_SPECIFIED, name));
 		}
@@ -651,7 +651,7 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 		public static SLDictionaryLoaderException newDelegateUnsatisfied(SLEnvironment env,
 				String owner, String delegate)
 		{
-			return new SLDictionaryLoaderException(env, SLExceptionLevel.INTERRUPT,
+			return new SLDictionaryLoaderException(env,
 					MESSAGE_DELEGATE_UNSATISFIED,
 					String.format(MESSAGE_DELEGATE_UNSATISFIED, owner, delegate));
 		}
