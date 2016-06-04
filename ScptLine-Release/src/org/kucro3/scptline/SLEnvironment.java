@@ -28,25 +28,12 @@ public class SLEnvironment implements SLExceptionHandler {
 	
 	SLEnvironment(DeclObject obj)
 	{
-		_booting();
 		this.reg = new SLRegister(this);
 		this.property = new SLProperty(this, obj);
 		Decl.toObject(property, obj);
 		this.opstack = new SLHandlerStack(this);
 		this.collection = SLDictionaryFactory.newCollection(this);
 		this.intpointEnabled = property.intpointEnabled();
-		this.initHandlers();
-		_idle();
-	}
-	
-	public final boolean isBooting()
-	{
-		return state == SLEnvState.BOOTING;
-	}
-	
-	public final boolean isLoadingInline()
-	{
-		return (state == SLEnvState.LOADING) && (lastState == SLEnvState.BOOTING);
 	}
 	
 	public final SLProperty getProperties()
@@ -76,57 +63,6 @@ public class SLEnvironment implements SLExceptionHandler {
 			InternalError.IntersectedFunctionCall();
 		e.printStackTrace();
 		return true;
-	}
-	
-	final void __state(SLEnvState state)
-	{
-		this.lastState = this.state;
-		this.state = state;
-	}
-	
-	final void _booting()
-	{
-		__state(SLEnvState.BOOTING);
-	}
-	
-	final void _idle()
-	{
-		__state(SLEnvState.IDLE);
-	}
-	
-	final void __state_last()
-	{
-		__state(lastState);
-	}
-	
-	final void _executing()
-	{
-		__state(SLEnvState.EXECUTING);
-	}
-	
-	final void _intpoint()
-	{
-		__state(SLEnvState.INTPOINT_CALLBACK);
-	}
-	
-	final void _exception()
-	{
-		__state(SLEnvState.FAILURE_CALLBACK);
-	}
-	
-	final void _loading()
-	{
-		__state(SLEnvState.LOADING);
-	}
-	
-	public final SLEnvState getState()
-	{
-		return state;
-	}
-	
-	public final SLEnvState getLastState()
-	{
-		return lastState;
 	}
 	
 	public SLDictionaryLoaded load(File file)
@@ -168,43 +104,19 @@ public class SLEnvironment implements SLExceptionHandler {
 	
 	public boolean execute(String line, int linenumber)
 	{
-		try {
 			try {
-				_executing();
 				String[] lines = opstack.preprocess(line);
 				if(lines == null)
 					return false;
 				boolean r = opstack.process(lines);
-				_intpoint();
+				
 				if(this.intpointEnabled)
 					opstack.intpoint();
 				return r;
 			} catch (SLException e) {
-				this.exception(e);
-			} catch (Exception e) {
 				this.uncaughtException(e);
 			}
-		} finally {
-			_idle();
-		}
 		return false;
-	}
-	
-	public final void exception(SLException e)
-	{
-		try {
-			_exception();
-			SLExceptionHandler handler;
-			if(exceptionHandlers == null
-					|| (handler = exceptionHandlers.get(getLastState())) == null)
-				uncaughtException(e);
-			else if(!handler.handle(this, e))
-				uncaughtException(e);
-		} catch (Exception e0) {
-			uncaughtException(e0);
-		} finally {
-			__state_last();
-		}
 	}
 	
 	final void uncaughtException(Exception e)
@@ -213,32 +125,15 @@ public class SLEnvironment implements SLExceptionHandler {
 		e.printStackTrace();
 	}
 	
-	private final void initHandlers()
-	{
-		this.exceptionHandlers.put(SLEnvState.IDLE, this);
-		this.exceptionHandlers.put(SLEnvState.BOOTING, this);
-		this.exceptionHandlers.put(SLEnvState.EXECUTING, new SLOpStackExceptionHandler());
-	}
-	
 	private final <T> SLDictionaryLoaded load0(LambdaLoading<T> lambda, T v)
 	{
-		SLEnvState last = state;
 		try {
-			try {
-				_loading();
-				return lambda.function(this, v);
-			} catch (SLException e) {
-				this.exception(e);
-			} catch (Exception e) {
-				this.uncaughtException(e);
-			}
-		} finally {
-			__state(last);
+			return lambda.function(this, v);
+		} catch (SLException e) {
+			this.uncaughtException(e);
 		}
 		return null;
 	}
-	
-	final Map<SLEnvState, SLExceptionHandler> exceptionHandlers = new HashMap<>();
 	
 	private final SLDictionaryCollection collection;
 	
@@ -248,40 +143,10 @@ public class SLEnvironment implements SLExceptionHandler {
 	
 	private final SLRegister reg;
 	
-	volatile SLEnvState lastState;
-	
-	volatile SLEnvState state;
-	
 	private final boolean intpointEnabled;
-	
-	public static enum SLEnvState
-	{
-		BOOTING,
-		LOADING,
-		IDLE,
-		EXECUTING,
-		INTPOINT_CALLBACK,
-		FAILURE_CALLBACK;
-	}
 	
 	interface LambdaLoading<T>
 	{
 		public abstract SLDictionaryLoaded function(SLEnvironment env, T t);
-	}
-	
-	private final class SLOpStackExceptionHandler implements SLExceptionHandler
-	{
-		private SLOpStackExceptionHandler()
-		{
-		}
-		
-		@Override
-		public boolean handle(SLEnvironment env, SLException e) 
-		{
-			SLHandler handler = opstack.peek();
-			if(handler == null)
-				return false;
-			return handler.handle(SLEnvironment.this, e);
-		}
 	}
 }
