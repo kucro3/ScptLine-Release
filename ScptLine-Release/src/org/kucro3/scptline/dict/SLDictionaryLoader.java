@@ -486,9 +486,8 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 		if(mainClass == null)
 			return null;
 		SLExport metadata = mainClass.getAnnotation(SLExport.class);
-		if(!env.isLoadingInline() &&
-			   (metadata == null || metadata.name() == null 
-								|| metadata.name().equals(METADATA_NAME_UNKNOWN)))
+		if(metadata == null || metadata.name() == null 
+								|| metadata.name().equals(METADATA_NAME_UNKNOWN))
 			throw SLDictionaryLoaderException.newMetadataNameUndefined(env);
 		return name = metadata.name();
 	}
