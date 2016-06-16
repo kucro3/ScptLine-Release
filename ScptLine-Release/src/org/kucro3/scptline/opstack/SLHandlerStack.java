@@ -14,7 +14,7 @@ public class SLHandlerStack implements SLObject {
 
 	public final int size()
 	{
-		return size;
+		return pointer;
 	}
 	
 	@Override
@@ -23,9 +23,14 @@ public class SLHandlerStack implements SLObject {
 		return owner;
 	}
 	
+	public boolean isEmpty()
+	{
+		return size() == 0;
+	}
+	
 	public int depth()
 	{
-		return pointer;
+		return size;
 	}
 	
 	public void add(SLHandler handler)
@@ -56,7 +61,7 @@ public class SLHandlerStack implements SLObject {
 	
 	private final void checkOverflow()
 	{
-		if(pointer + 1 == size)
+		if(pointer + 1 > size)
 			throw SLHandlerStackException.newStackOverflow(owner);
 	}
 	

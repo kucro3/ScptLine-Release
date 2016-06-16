@@ -34,6 +34,11 @@ public class SLDictionaryCollection implements SLObject {
 		return dicts.get(name);
 	}
 	
+	public int size()
+	{
+		return dicts.size();
+	}
+	
 	final boolean bind(SLDictionaryLoaded loaded)
 	{
 		if(dicts.containsKey(loaded.getName()))
@@ -47,6 +52,8 @@ public class SLDictionaryCollection implements SLObject {
 		for(SLMethodLoaded m : loaded.methods.values())
 			if(qMethod.put(temp = m.getName(), m) != null)
 				qMethod.put(temp, DUPLICATED);
+		
+		dicts.put(loaded.getName(), loaded);
 		
 		return true;
 	}

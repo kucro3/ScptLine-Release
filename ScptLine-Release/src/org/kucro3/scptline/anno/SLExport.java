@@ -25,9 +25,7 @@ public @interface SLExport {
 	
 	boolean directInput() default false;
 	
-	int argCount() default -1;
-	
-	String type();
+	String type() default "";
 	
 	@Target({ElementType.FIELD, ElementType.METHOD})
 	@Retention(RetentionPolicy.RUNTIME)

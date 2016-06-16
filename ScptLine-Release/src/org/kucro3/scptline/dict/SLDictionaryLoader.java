@@ -357,6 +357,9 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 				break BLOCK;
 			}
 			
+		case TYPE_UNKNOWN:
+			throw SLDictionaryLoaderException.newUnknownImportingType(env, export.type());
+			
 		default:
 			break BLOCK;
 		}
@@ -460,9 +463,12 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 	
 	private final int getType(SLExport export)
 	{
-		if(export.targs().length == 0)
+		String t = export.type().toLowerCase();
+		if("field".equals(t))
 			return TYPE_FIELD;
-		return TYPE_METHOD;
+		if("method".equals(t))
+			return TYPE_METHOD;
+		return TYPE_UNKNOWN;
 	}
 	
 	final void checkMethodDuplication(SLExportedInfo info, Map<String, SLMethodLoaded> mapM)
@@ -517,6 +523,8 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 	private static final int TYPE_FIELD = 0;
 	
 	private static final int TYPE_METHOD = 1;
+	
+	private static final int TYPE_UNKNOWN = -1;
 	
 	public static class SLDictionaryLoaderException extends SLException
 	{
@@ -656,6 +664,14 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 					String.format(MESSAGE_DELEGATE_UNSATISFIED, owner, delegate));
 		}
 		
+		public static SLDictionaryLoaderException newUnknownImportingType(SLEnvironment env,
+				String type)
+		{
+			return new SLDictionaryLoaderException(env,
+					MESSAGE_UNKNOWN_IMPORTING_TYPE,
+					String.format(MESSAGE_UNKNOWN_IMPORTING_TYPE, type));
+		}
+		
 		public static final String MESSAGE_IO_EXCEPTION = "I/O Exception: %s";
 		
 		public static final String MESSAGE_MALFORMED_URL = "Malformed URL: %s";
@@ -685,6 +701,8 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 		public static final String MESSAGE_DELEGATE_NOT_SPECIFIED = "Delegate not specified: %s";
 		
 		public static final String MESSAGE_DELEGATE_UNSATISFIED = "Delegate unsatisfied: %s:%s";
+		
+		public static final String MESSAGE_UNKNOWN_IMPORTING_TYPE = "Unknown importing type: %s";
 		
 		public static final String DESCRIPTION = "An exception occurred in dictionary loader";
 	}

@@ -3,6 +3,8 @@ package org.kucro3.scptline.dict;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 
 import org.kucro3.scptline.SLEnvironment;
 import org.kucro3.scptline.SLException;
@@ -21,6 +23,7 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 		this.reference = new DefaultGetter(reference);
 		this.owner = reference;
 		this.params = params(env, metadata);
+		this.paramList = Arrays.asList(params);
 	}
 	
 	SLMethodLoaded(SLEnvironment env, SLDictionaryLoaded dict, SLDictionary owner,
@@ -34,6 +37,7 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 		this.reference = new ReflectGetter(reference, field);
 		this.owner = owner;
 		this.params = params(env, metadata);
+		this.paramList = Arrays.asList(params);
 	}
 	
 	static SLResolvedParam[] params(SLEnvironment env, SLExportedInfo metadata)
@@ -105,6 +109,11 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 		return params;
 	}
 	
+	public List<SLResolvedParam> getResolvedParamList()
+	{
+		return paramList;
+	}
+	
 	public Object invoke(Object... args)
 	{
 		try {
@@ -121,6 +130,8 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 	private final String name;
 	
 	private final SLResolvedParam[] params;
+	
+	private final List<SLResolvedParam> paramList;
 	
 	Method method;
 	
