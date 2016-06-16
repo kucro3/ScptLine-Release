@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 public enum SLMethodParam {
 	BYTE("byte"),
+	CHAR("char"),
 	
 	N_SHORT("short"),
 	N_INT("int"),
