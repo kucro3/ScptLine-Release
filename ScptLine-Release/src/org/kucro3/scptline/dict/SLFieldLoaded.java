@@ -51,6 +51,11 @@ public class SLFieldLoaded extends SLExported implements SLDictionaryObject {
 		return reflector.getField();
 	}
 	
+	public Method getMethod()
+	{
+		return reflector.getMethod();
+	}
+	
 	public Object getReference()
 	{
 		return reference;
@@ -120,6 +125,8 @@ public class SLFieldLoaded extends SLExported implements SLDictionaryObject {
 	public static abstract interface Reflector extends SLObject
 	{
 		abstract Field getField();
+			
+		abstract Method getMethod();
 		
 		abstract String getName();
 		
@@ -150,6 +157,11 @@ public class SLFieldLoaded extends SLExported implements SLDictionaryObject {
 		}
 		
 		public Field getField()
+		{
+			return null;
+		}
+		
+		public Method getMethod()
 		{
 			return null;
 		}
@@ -225,6 +237,12 @@ public class SLFieldLoaded extends SLExported implements SLDictionaryObject {
 			} catch (InvocationTargetException e) {
 				return null; //TODO handle InvocationTargetException
 			}
+		}
+		
+		@Override
+		public Method getMethod()
+		{
+			return method;
 		}
 		
 		@Override

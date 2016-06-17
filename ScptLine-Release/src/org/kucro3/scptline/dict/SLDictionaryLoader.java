@@ -520,9 +520,9 @@ public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 	
 	public static final String FIELD_MAIN_CLASS = "MainClass";
 	
-	private static final int TYPE_FIELD = 0;
+	public static final int TYPE_FIELD = 0;
 	
-	private static final int TYPE_METHOD = 1;
+	public static final int TYPE_METHOD = 1;
 	
 	private static final int TYPE_UNKNOWN = -1;
 	

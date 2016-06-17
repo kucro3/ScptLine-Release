@@ -24,6 +24,7 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 		this.owner = reference;
 		this.params = params(env, metadata);
 		this.paramList = Arrays.asList(params);
+		this.essence = SLDictionaryLoader.TYPE_METHOD;
 	}
 	
 	SLMethodLoaded(SLEnvironment env, SLDictionaryLoaded dict, SLDictionary owner,
@@ -38,6 +39,7 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 		this.owner = owner;
 		this.params = params(env, metadata);
 		this.paramList = Arrays.asList(params);
+		this.essence = SLDictionaryLoader.TYPE_FIELD;
 	}
 	
 	static SLResolvedParam[] params(SLEnvironment env, SLExportedInfo metadata)
@@ -127,6 +129,11 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 		}
 	}
 	
+	public int getEssentialTypeID()
+	{
+		return essence;
+	}
+	
 	private final String name;
 	
 	private final SLResolvedParam[] params;
@@ -142,6 +149,8 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 	private final SLDictionaryLoaded dict;
 	
 	private final SLEnvironment env;
+	
+	private final int essence;
 	
 	public static interface Getter
 	{
