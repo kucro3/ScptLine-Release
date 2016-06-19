@@ -46,6 +46,12 @@ public abstract class SLHandler implements SLRuntimeObject, SLExceptionHandler {
 			parent.internalException(env, e);
 	}
 	
+	public void externalException(SLEnvironment env, SLExternalException e) 
+	{
+		if(parent != null)
+			parent.externalException(env, e);
+	}
+	
 	public boolean process(SLEnvironment env, String line)
 	{
 		if(parent != null)

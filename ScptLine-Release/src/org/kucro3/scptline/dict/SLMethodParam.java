@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 public enum SLMethodParam {
+	BOOL("boolean"),
 	BYTE("byte"),
 	CHAR("char"),
 	

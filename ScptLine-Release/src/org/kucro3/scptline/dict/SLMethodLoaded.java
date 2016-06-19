@@ -230,7 +230,7 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 		{
 			return (SLMethodException)new SLMethodException(env,
 					MESSAGE_INVOCATION_TARGET,
-					String.format(MESSAGE_INVOCATION_TARGET, e.getMessage()))
+					String.format(MESSAGE_INVOCATION_TARGET))
 					.initCause(e.getCause());
 		}
 		
@@ -264,7 +264,7 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 		
 		public static final String MESSAGE_ILLEGAL_ARGUMENT = "Illegal Argument: %s";
 		
-		public static final String MESSAGE_INVOCATION_TARGET = "Exception occurred in the method: %s";
+		public static final String MESSAGE_INVOCATION_TARGET = "Exception occurred in the method.";
 	
 		public static final String MESSAGE_UNKNOWN_PARAM_TYPE = "Unknown param type: %s";
 	}

@@ -22,4 +22,6 @@ public interface Parser {
 	public String parseString(String line, Matcher matcher, int last, int[] output);
 	
 	public Object parseObject(String line, Matcher matcher, int last, int[] output);
+
+	public Boolean parseBoolean(String line, Matcher matcher, int last, int[] output);
 }

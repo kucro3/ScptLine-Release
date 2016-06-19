@@ -87,7 +87,9 @@ public class Main {
 				try {
 					env.execute(line);
 				} catch (SLException e) {
-					env.exception(e);
+					env.internalException(e);
+				} catch (SLExternalException e) {
+					env.externalException(e);
 				}
 				System.out.println();
 			}

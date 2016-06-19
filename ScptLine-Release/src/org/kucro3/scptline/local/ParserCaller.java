@@ -27,6 +27,7 @@ public class ParserCaller {
 		private static final long serialVersionUID = -2011138155861660655L;
 
 		{
+			put(BOOL, (p, l, m, i, o) -> p.parseBoolean(l, m, i, o));
 			put(BYTE, (p, l, m, i, o) -> p.parseByte(l, m, i, o));
 			put(CHAR, (p, l, m, i, o) -> p.parseChar(l, m, i, o));
 			

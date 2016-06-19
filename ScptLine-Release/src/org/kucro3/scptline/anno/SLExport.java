@@ -27,6 +27,8 @@ public @interface SLExport {
 	
 	String type() default "";
 	
+	String version() default "1";
+	
 	@Target({ElementType.FIELD, ElementType.METHOD})
 	@Retention(RetentionPolicy.RUNTIME)
 	@Documented

@@ -95,9 +95,14 @@ public class SLEnvironment implements SLExceptionHandler {
 		return loaded;
 	}
 	
-	public void exception(SLException e)
+	public void internalException(SLException e)
 	{
 		opstack.internalException(e);
+	}
+	
+	public void externalException(SLExternalException e)
+	{
+		opstack.externalException(e);
 	}
 	
 	public void execute(String... lines)

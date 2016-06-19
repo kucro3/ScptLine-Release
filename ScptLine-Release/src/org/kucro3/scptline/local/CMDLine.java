@@ -5,9 +5,12 @@ import java.util.ListIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.kucro3.exception.Untraced;
 import org.kucro3.scptline.SLEnvironment;
 import org.kucro3.scptline.SLException;
+import org.kucro3.scptline.SLExternalException;
 import org.kucro3.scptline.dict.SLDictionaryCollection;
+import org.kucro3.scptline.dict.SLDictionaryLoader;
 import org.kucro3.scptline.dict.SLMethodLoaded;
 import org.kucro3.scptline.dict.SLMethodParam;
 import org.kucro3.scptline.dict.SLMethodParam.SLResolvedParam;
@@ -30,6 +33,10 @@ public class CMDLine extends SLHandler {
 			insn = insn.substring(matcher.end());
 		}
 		SLMethodLoaded method = c.requireMethod(dict, insn);
+		boolean envRequired = 
+				method.getEssentialTypeID() == SLDictionaryLoader.TYPE_FIELD ? (
+						method.getParameterCount() > 0 ? (
+								method.getParameterTypes()[0].equals(SLEnvironment.class)) : false) : true;
 		
 		Object[] objs;
 		assert method != null;
@@ -41,27 +48,36 @@ public class CMDLine extends SLHandler {
 			List<SLResolvedParam> paramList = method.getResolvedParamList();
 			ListIterator<SLResolvedParam> paramIter = paramList.listIterator();
 			
-			objs = new Object[paramList.size() + 1];
+			int i;
+			objs = new Object[paramList.size() + (i = envRequired ? 1 : 0)];
 			
 			SLResolvedParam resolved;
 			SLMethodParam param;
-			int count = 0, i = 1;
+			int count = 0;
 			
 			do {
 				resolved = paramIter.next();
 				param = resolved.getType();
 				objs[i++] = ParserCaller.call(parser, param, line, matcher, count, input);
-				if(!matcher.hitEnd())
+				if(matcher.matches())
 					count = matcher.end();
 				count += input[0];
 				input[0] = 0;
 			} while(paramIter.hasNext());
 			
-			objs[0] = env;
+			if(envRequired)
+				objs[0] = env;
 		}
-		else
+		else if(envRequired)
 			objs = new Object[] {env};
-		method.invoke(objs);
+		else
+			objs = new Object[0];
+		try {
+			method.invoke(objs);
+		} catch (SLException e) {
+			Untraced.untraceAll(e);
+			throw e;
+		}
 		
 		return true;
 	}
@@ -69,13 +85,22 @@ public class CMDLine extends SLHandler {
 	@Override
 	public void internalException(SLEnvironment env, SLException e)
 	{
-		System.out.println("Failed to execute command. Caused by:");
+		System.out.println("Failed to execute command: ");
 		e.printStackTrace();
 	}
+	
+	@Override
+	public void externalException(SLEnvironment env, SLExternalException e)
+	{
+		System.out.println("Failed to execute command: ");
+		e.printStackTrace();
+	}
+	
+	public static final StackTraceElement[] EMPTY_STACK_TRACE = new StackTraceElement[0];
 	
 	static final Pattern SPACE = Pattern.compile(" ");
 	
 	static final Pattern SPLIT = Pattern.compile(":");
 	
-	public static Parser parser = new DefaultParser();
+	public Parser parser = new DefaultParser();
 }

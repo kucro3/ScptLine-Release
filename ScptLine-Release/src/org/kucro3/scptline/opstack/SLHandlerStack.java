@@ -2,6 +2,7 @@ package org.kucro3.scptline.opstack;
 
 import org.kucro3.scptline.SLEnvironment;
 import org.kucro3.scptline.SLException;
+import org.kucro3.scptline.SLExternalException;
 import org.kucro3.scptline.SLObject;
 
 public class SLHandlerStack implements SLObject {
@@ -74,6 +75,11 @@ public class SLHandlerStack implements SLObject {
 	public final void internalException(SLException e)
 	{
 		requireHandler().internalException(this.getEnv(), e);
+	}
+	
+	public final void externalException(SLExternalException e)
+	{
+		requireHandler().externalException(this.getEnv(), e);
 	}
 	
 	public final void intpoint()

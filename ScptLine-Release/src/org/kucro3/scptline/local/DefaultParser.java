@@ -6,6 +6,20 @@ import org.kucro3.scptline.SLExternalException;
 
 public class DefaultParser implements Parser {
 	@Override
+	public Boolean parseBoolean(String line, Matcher matcher, int last, int[] output)
+	{
+		switch(line.toLowerCase())
+		{
+		case TRUE:
+			return true;
+		case FALSE:
+			return false;
+		default:
+			throw new SLExternalException("not a boolean");
+		}
+	}
+	
+	@Override
 	public Byte parseByte(String line, Matcher matcher, int last, int[] output)
 	{
 		try {
@@ -89,7 +103,7 @@ public class DefaultParser implements Parser {
 	@Override
 	public String parseString(String line, Matcher matcher, int last, int[] output)
 	{
-		throw new SLExternalException(new UnsupportedOperationException());
+		return sub(line, matcher, last);
 	}
 	
 	public static String sub(String line, Matcher matcher, int last)
@@ -99,4 +113,8 @@ public class DefaultParser implements Parser {
 		else
 			return line.substring(last, matcher.start());
 	}
+	
+	public static final String TRUE = "true";
+	
+	public static final String FALSE = "false";
 }
