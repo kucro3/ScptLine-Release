@@ -3,6 +3,7 @@ package org.kucro3.scptline.dict;
 import java.util.*;
 
 import org.kucro3.scptline.*;
+import org.kucro3.scptline.exception.SLException;
 
 public class SLDictionaryLoaded implements SLObject {
 	SLDictionaryLoaded(SLEnvironment env, String name, SLDictionary ref,

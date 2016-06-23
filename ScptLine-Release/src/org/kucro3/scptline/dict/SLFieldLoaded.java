@@ -4,26 +4,27 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.kucro3.exception.Untraced.UntracedException;
 import org.kucro3.scptline.SLEnvironment;
-import org.kucro3.scptline.SLException;
 import org.kucro3.scptline.SLObject;
 import org.kucro3.scptline.dict.SLDictionaryLoader.SLExportedInfo;
+import org.kucro3.scptline.exception.SLException;
 
 public class SLFieldLoaded extends SLExported implements SLDictionaryObject {
 	SLFieldLoaded(SLEnvironment env, SLDictionaryLoaded dict, SLDictionary reference,
 			SLExportedInfo metadata, Field field)
 	{
-		this(env, dict, reference, metadata, new ReflectorDefault(env, field));
+		this(env, dict, reference, metadata, new ReflectorDefault(env, field), SLDictionaryLoader.TYPE_FIELD);
 	}
 	
 	SLFieldLoaded(SLEnvironment env, SLDictionaryLoaded dict, SLDictionary reference,
 			SLExportedInfo metadata, Method method, boolean envRequired)
 	{
-		this(env, dict, reference, metadata, new ReflectorDelegate(env, method, envRequired));
+		this(env, dict, reference, metadata, new ReflectorDelegate(env, method, envRequired), SLDictionaryLoader.TYPE_METHOD);
 	}
 	
 	SLFieldLoaded(SLEnvironment env, SLDictionaryLoaded dict, SLDictionary reference,
-			SLExportedInfo metadata, ReflectorNull reflector)
+			SLExportedInfo metadata, ReflectorNull reflector, int essence)
 	{
 		super(metadata);
 		this.env = env;
@@ -32,6 +33,7 @@ public class SLFieldLoaded extends SLExported implements SLDictionaryObject {
 		this.reference = reference;
 		this.owner = reference;
 		this.reflector = reflector;
+		this.essence = essence;
 	}
 	
 	@Override
@@ -70,6 +72,11 @@ public class SLFieldLoaded extends SLExported implements SLDictionaryObject {
 	public String getRealName()
 	{
 		return reflector.getName();
+	}
+	
+	public int getEssentialTypeID()
+	{
+		return essence;
 	}
 	
 	public Object get()
@@ -121,6 +128,8 @@ public class SLFieldLoaded extends SLExported implements SLDictionaryObject {
 	private final SLDictionaryLoaded dict;
 	
 	private final Reflector reflector;
+	
+	private final int essence;
 	
 	public static abstract interface Reflector extends SLObject
 	{
@@ -256,7 +265,7 @@ public class SLFieldLoaded extends SLExported implements SLDictionaryObject {
 		private final Method method;
 	}
 	
-	public static class SLFieldException extends SLException
+	public static class SLFieldException extends SLException implements UntracedException
 	{
 		/**
 		 * 

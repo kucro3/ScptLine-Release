@@ -9,6 +9,8 @@ import org.kucro3.kargs.KArgsContext.Property;
 import org.kucro3.kargs.KArgsService;
 import org.kucro3.scptline.dict.SLDictionaryFactory;
 import org.kucro3.scptline.dict.SLDictionaryLoaded;
+import org.kucro3.scptline.exception.SLException;
+import org.kucro3.scptline.exception.SLExternalException;
 import org.kucro3.scptline.local.CMDLine;
 import org.kucro3.scptline.local.LocalDictionary;
 import org.kucro3.scptline.opstack.SLHandlerStack;
@@ -77,7 +79,7 @@ public class Main {
 				if(env.getHandlerStack().isEmpty())
 				{
 					System.out.println();
-					System.out.println("-> No handler in stack(" +
+					System.out.println("-> No handler in stack (" +
 							SLHandlerStack.SLHandlerStackException.MESSAGE_STACK_UNDERFLOW + ").");
 					break;
 				}

@@ -1,4 +1,4 @@
-package org.kucro3.scptline;
+package org.kucro3.scptline.exception;
 
 import org.kucro3.exception.Untraced.UntracedException;
 

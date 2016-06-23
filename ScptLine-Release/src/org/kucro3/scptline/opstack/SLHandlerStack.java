@@ -1,9 +1,9 @@
 package org.kucro3.scptline.opstack;
 
-import org.kucro3.scptline.SLEnvironment;
-import org.kucro3.scptline.SLException;
-import org.kucro3.scptline.SLExternalException;
 import org.kucro3.scptline.SLObject;
+import org.kucro3.scptline.SLEnvironment;
+import org.kucro3.scptline.exception.SLException;
+import org.kucro3.scptline.exception.SLExternalException;
 
 public class SLHandlerStack implements SLObject {
 	public SLHandlerStack(SLEnvironment owner)
@@ -38,12 +38,14 @@ public class SLHandlerStack implements SLObject {
 	{
 		checkOverflow();
 		stack[pointer++] = handler;
+		update();
 	}
 	
 	public void remove()
 	{
 		checkUnderflow();
 		stack[--pointer] = null;
+		update();
 	}
 	
 	public SLHandler peek()
@@ -57,7 +59,36 @@ public class SLHandlerStack implements SLObject {
 		checkUnderflow();
 		SLHandler handler = stack[--pointer];
 		stack[pointer] = null;
+		update();
 		return handler;
+	}
+	
+	public void update()
+	{
+		if(isEmpty())
+			underConsole = underScript = false;
+		else
+		{
+			SLHandler ctx = stack[pointer - 1];
+			if(ctx instanceof ConsoleHandler)
+				underConsole = true;
+			else
+				underConsole = false;
+			if(ctx instanceof ScriptHandler)
+				underScript = true;
+			else
+				underScript = false;
+		}
+	}
+	
+	public boolean underConsole()
+	{
+		return underConsole;
+	}
+	
+	public boolean underScript()
+	{
+		return underScript;
 	}
 	
 	private final void checkOverflow()
@@ -92,6 +123,16 @@ public class SLHandlerStack implements SLObject {
 		return requireHandler().process(this.getEnv(), line);
 	}
 	
+	public final void println(String msg)
+	{
+		requireHandler().println(msg);
+	}
+	
+	public final void print(String msg)
+	{
+		requireHandler().print(msg);
+	}
+	
 	final SLHandler requireHandler()
 	{
 		SLHandler handler;
@@ -99,6 +140,10 @@ public class SLHandlerStack implements SLObject {
 			return handler;
 		throw SLHandlerStackException.newStackUnderflow(owner);
 	}
+	
+	private volatile boolean underConsole;
+	
+	private volatile boolean underScript;
 	
 	private int pointer = 0;
 	

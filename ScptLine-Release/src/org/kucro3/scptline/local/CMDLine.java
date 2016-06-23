@@ -7,16 +7,18 @@ import java.util.regex.Pattern;
 
 import org.kucro3.exception.Untraced;
 import org.kucro3.scptline.SLEnvironment;
-import org.kucro3.scptline.SLException;
-import org.kucro3.scptline.SLExternalException;
 import org.kucro3.scptline.dict.SLDictionaryCollection;
 import org.kucro3.scptline.dict.SLDictionaryLoader;
 import org.kucro3.scptline.dict.SLMethodLoaded;
+import org.kucro3.scptline.dict.SLMethodLoaded.SLInvokingException;
 import org.kucro3.scptline.dict.SLMethodParam;
 import org.kucro3.scptline.dict.SLMethodParam.SLResolvedParam;
+import org.kucro3.scptline.opstack.ConsoleHandler;
 import org.kucro3.scptline.opstack.SLHandler;
+import org.kucro3.scptline.exception.SLException;
+import org.kucro3.scptline.exception.SLExternalException;
 
-public class CMDLine extends SLHandler {
+public class CMDLine extends SLHandler implements ConsoleHandler {
 	@Override
 	public boolean process(SLEnvironment env, String line)
 	{
@@ -86,7 +88,10 @@ public class CMDLine extends SLHandler {
 	public void internalException(SLEnvironment env, SLException e)
 	{
 		System.out.println("Failed to execute command: ");
-		e.printStackTrace();
+		if(e instanceof SLInvokingException)
+			e.getCause().printStackTrace();
+		else
+			e.printStackTrace();
 	}
 	
 	@Override
@@ -94,6 +99,18 @@ public class CMDLine extends SLHandler {
 	{
 		System.out.println("Failed to execute command: ");
 		e.printStackTrace();
+	}
+	
+	@Override
+	public void println(String msg)
+	{
+		System.out.println(msg);
+	}
+	
+	@Override
+	public void print(String msg)
+	{
+		System.out.print(msg);
 	}
 	
 	public static final StackTraceElement[] EMPTY_STACK_TRACE = new StackTraceElement[0];

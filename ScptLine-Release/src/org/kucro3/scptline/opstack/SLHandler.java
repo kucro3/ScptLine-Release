@@ -1,6 +1,8 @@
 package org.kucro3.scptline.opstack;
 
 import org.kucro3.scptline.*;
+import org.kucro3.scptline.exception.SLException;
+import org.kucro3.scptline.exception.SLExternalException;
 
 public abstract class SLHandler implements SLRuntimeObject, SLExceptionHandler {
 	protected SLHandler()
@@ -62,6 +64,22 @@ public abstract class SLHandler implements SLRuntimeObject, SLExceptionHandler {
 	protected final SLHandler parent()
 	{
 		return parent;
+	}
+	
+	public void println(String msg)
+	{
+		if(parent != null)
+			parent.println(msg);
+		else
+			throw new UnsupportedOperationException();
+	}
+	
+	public void print(String msg)
+	{
+		if(parent != null)
+			parent.print(msg);
+		else
+			throw new UnsupportedOperationException();
 	}
 	
 	public final boolean handle(SLEnvironment env, SLException e)

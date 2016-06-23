@@ -6,10 +6,11 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
+import org.kucro3.exception.Untraced.UntracedException;
 import org.kucro3.scptline.SLEnvironment;
-import org.kucro3.scptline.SLException;
 import org.kucro3.scptline.dict.SLDictionaryLoader.SLExportedInfo;
 import org.kucro3.scptline.dict.SLMethodParam.SLResolvedParam;
+import org.kucro3.scptline.exception.SLException;
 
 public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 	SLMethodLoaded(SLEnvironment env, SLDictionaryLoaded dict, SLDictionary reference,
@@ -125,7 +126,7 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 		} catch (IllegalArgumentException e) {
 			throw SLMethodException.newIllegalArgument(env, e);
 		} catch (InvocationTargetException e) {
-			throw SLMethodException.newInvocationTarget(env, e);
+			throw new SLInvokingException(env, e);
 		}
 	}
 	
@@ -207,7 +208,26 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 		}
 	}
 	
-	public static class SLMethodException extends SLException
+	public static class SLInvokingException extends SLException implements UntracedException
+	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 6224592490603126527L;
+		
+		public SLInvokingException(SLEnvironment env, 
+				InvocationTargetException e)
+		{
+			super(env, DESCRIPTION, MESSAGE_);
+			super.initCause(e.getCause());
+		}
+
+		public static final String DESCRIPTION = "SL_INVOKING_EXCEPTION";
+		
+		public static final String MESSAGE_ = "MESSAGE_SL_INVOKING_EXCEPTION";
+	}
+	
+	public static class SLMethodException extends SLException implements UntracedException
 	{
 		/**
 		 * 
@@ -223,15 +243,6 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 				String message)
 		{
 			super(env, DESCRIPTION, stub, message);
-		}
-		
-		public static SLMethodException newInvocationTarget(SLEnvironment env,
-				InvocationTargetException e)
-		{
-			return (SLMethodException)new SLMethodException(env,
-					MESSAGE_INVOCATION_TARGET,
-					String.format(MESSAGE_INVOCATION_TARGET))
-					.initCause(e.getCause());
 		}
 		
 		public static SLMethodException newIllegalAccess(SLEnvironment env,
@@ -263,8 +274,6 @@ public class SLMethodLoaded extends SLExported implements SLDictionaryObject {
 		public static final String MESSAGE_ILLEGAL_ACCESS = "Illegal Access: %s";
 		
 		public static final String MESSAGE_ILLEGAL_ARGUMENT = "Illegal Argument: %s";
-		
-		public static final String MESSAGE_INVOCATION_TARGET = "Exception occurred in the method.";
 	
 		public static final String MESSAGE_UNKNOWN_PARAM_TYPE = "Unknown param type: %s";
 	}

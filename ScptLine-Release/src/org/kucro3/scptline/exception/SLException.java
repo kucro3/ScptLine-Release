@@ -1,4 +1,7 @@
-package org.kucro3.scptline;
+package org.kucro3.scptline.exception;
+
+import org.kucro3.scptline.SLEnvironment;
+import org.kucro3.scptline.SLObject;
 
 /**
  * 环境中的运行时错误.

@@ -1,4 +1,4 @@
-package org.kucro3.scptline;
+package org.kucro3.scptline.exception;
 
 import org.kucro3.exception.Untraced.UntracedException;
 
@@ -31,9 +31,9 @@ public class SLMessage extends RuntimeException implements UntracedException {
 	
 	public static void checkArgument(String[] args, int min, int max)
 	{
-		if(args.length < min)
+		if(min > 0 && args.length < min)
 			throw SLMessage.needMoreArguments();
-		if(args.length > max)
+		if(max > 0 && args.length > max)
 			throw SLMessage.tooManyArguments();
 	}
 	

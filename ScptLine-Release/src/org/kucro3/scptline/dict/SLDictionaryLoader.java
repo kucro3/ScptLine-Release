@@ -12,11 +12,11 @@ import java.util.*;
 import org.kucro3.decl.Decl;
 import org.kucro3.decl.DeclObject;
 import org.kucro3.scptline.SLEnvironment;
-import org.kucro3.scptline.SLException;
 import org.kucro3.scptline.SLObject;
 import org.kucro3.scptline.anno.SLExport;
+import org.kucro3.scptline.exception.SLException;
 
-import static org.kucro3.scptline.InternalError.ShouldNotReachHere;
+import static org.kucro3.scptline.exception.InternalError.ShouldNotReachHere;
 
 public class SLDictionaryLoader extends URLClassLoader implements SLObject {
 	private SLDictionaryLoader(SLEnvironment env, URL[] urls)

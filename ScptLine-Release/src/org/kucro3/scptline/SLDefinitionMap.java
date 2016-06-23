@@ -1,6 +1,9 @@
 package org.kucro3.scptline;
 
 import java.util.Map;
+
+import org.kucro3.scptline.exception.SLException;
+
 import java.util.HashMap;
 
 public class SLDefinitionMap implements SLObject {

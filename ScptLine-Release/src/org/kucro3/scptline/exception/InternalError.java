@@ -1,4 +1,4 @@
-package org.kucro3.scptline;
+package org.kucro3.scptline.exception;
 
 public class InternalError extends RuntimeException {
 	/**

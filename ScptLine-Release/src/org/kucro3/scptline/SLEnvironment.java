@@ -10,6 +10,9 @@ import org.kucro3.scptline.dict.SLDictionaryCollection;
 import org.kucro3.scptline.dict.SLDictionaryFactory;
 import org.kucro3.scptline.dict.SLDictionaryLoaded;
 import org.kucro3.scptline.dict.SLDictionaryLoader;
+import org.kucro3.scptline.exception.SLException;
+import org.kucro3.scptline.exception.SLExternalException;
+import org.kucro3.scptline.exception.InternalError;
 import org.kucro3.scptline.opstack.SLHandlerStack;
 
 public class SLEnvironment implements SLExceptionHandler {
@@ -58,6 +61,57 @@ public class SLEnvironment implements SLExceptionHandler {
 	public final SLDefinitionStack getVarMap()
 	{
 		return definitionStack;
+	}
+	
+	public void println(Object obj)
+	{
+		opstack.println(obj.toString());
+	}
+	
+	public void printlnConsole(Object obj)
+	{
+		if(opstack.underConsole())
+			println(obj);
+	}
+	
+	public void printlnScript(Object obj)
+	{
+		if(opstack.underScript())
+			println(obj);
+	}
+	
+	public void print(Object obj)
+	{
+		opstack.print(obj.toString());
+	}
+	
+	public void printConsole(Object obj)
+	{
+		if(opstack.underConsole())
+			print(obj);
+	}
+	
+	public void printScript(Object obj)
+	{
+		if(opstack.underScript())
+			print(obj);
+	}
+	
+	public void printf(String format, Object... objs)
+	{
+		print(String.format(format, objs));
+	}
+	
+	public void printfConsole(String format, Object... objs)
+	{
+		if(opstack.underConsole())
+			printf(format, objs);
+	}
+	
+	public void printfScript(String format, Object... objs)
+	{
+		if(opstack.underScript())
+			printf(format, objs);
 	}
 	
 	@Override
@@ -126,8 +180,22 @@ public class SLEnvironment implements SLExceptionHandler {
 	
 	private final <T> SLDictionaryLoaded load0(LambdaLoading<T> lambda, T v)
 	{
-		return lambda.function(this, v);
+		SLDictionaryLoaded loaded = lambda.function(this, v);
+		SLDictionaryFactory.bind(collection, loaded);
+		return loaded;
 	}
+	
+	public boolean underConsole()
+	{
+		return opstack.underConsole();
+	}
+	
+	public boolean underScript()
+	{
+		return opstack.underScript();
+	}
+	
+	public static final Object VOID = new Object();
 	
 	private final SLDefinitionStack definitionStack;
 	

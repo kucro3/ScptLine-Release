@@ -2,7 +2,7 @@ package org.kucro3.scptline.local;
 
 import java.util.regex.Matcher;
 
-import org.kucro3.scptline.SLExternalException;
+import org.kucro3.scptline.exception.SLExternalException;
 
 public class DefaultParser implements Parser {
 	@Override

@@ -4,8 +4,8 @@ import java.util.*;
 
 import org.kucro3.lambda.*;
 import org.kucro3.scptline.SLEnvironment;
-import org.kucro3.scptline.SLException;
 import org.kucro3.scptline.SLObject;
+import org.kucro3.scptline.exception.SLException;
 
 public class SLDictionaryCollection implements SLObject {
 	SLDictionaryCollection(SLEnvironment env)
@@ -24,9 +24,9 @@ public class SLDictionaryCollection implements SLObject {
 		return dicts.containsKey(name);
 	}
 	
-	void removeDictionary(String name)
+	public SLDictionaryLoaded removeDictionary(String name)
 	{
-		dicts.remove(name);
+		return dicts.remove(name);
 	}
 	
 	public SLDictionaryLoaded getDictionary(String name)
@@ -111,6 +111,11 @@ public class SLDictionaryCollection implements SLObject {
 		if((rt = map.get(key)) == DUPLICATED)
 			return null;
 		return (T)rt;
+	}
+	
+	public Collection<SLDictionaryLoaded> dictionaries()
+	{
+		return dicts.values();
 	}
 	
 	private final Map<String, Object> qField = new HashMap<>();
